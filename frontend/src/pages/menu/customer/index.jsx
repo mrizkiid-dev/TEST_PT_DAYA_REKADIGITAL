@@ -3,21 +3,21 @@ import { SearchNormal, Filter, Refresh2, Printer } from "iconsax-react"
 import PropsTypes from "prop-types"
 import DataTable from "react-data-table-component"
 import sortIcon from "@/assets/images/icons/sort.svg"
-
-
-// const tableCustomStyles = {
-//     headCells: {
-//       style: {
-//         fontSize: '20px',
-//         fontWeight: 'bold',
-//         paddingLeft: '0 8px',
-//         justifyContent: 'beetwen',
-//         backgroundColor: '#FFA500'
-//       },
-//     },
-//   }
+import useCustomerStore from "@/store/use_customer_store"
+import { useEffect } from "react"
 
 function CustomerIndexPage() {
+    const { data: dataStore, loading, error, storeGetTransactionWithCustomer } = useCustomerStore();
+    useEffect(() =>  {
+        console.log('trigger');
+        storeGetTransactionWithCustomer()
+    }, [storeGetTransactionWithCustomer]);
+
+    console.log('data = ',dataStore);
+    console.log('loading = ',loading);
+    console.log('error = ',error);
+    
+
     const onSubmitSearch = (e) => {
         e.preventDefault()
     }
@@ -74,24 +74,39 @@ function CustomerIndexPage() {
             selector: row => row.action,
         },
     ];
+
+    const data = []
+
+    if(dataStore) {
+        dataStore.forEach(customer => {
+            data.push({ 
+                id: customer.id, 
+                customerName: customer.customer_name, 
+                level: customer.customer_level, 
+                favoriteMenu: customer.customer_favoriteMenu, 
+                totalTransaction: 1200, 
+                action: 'Buy' })
+        });
+    }
+
     
-    const data = [
-        { id: 1, customerName: 'John Doe', level: 'Gold', favoriteMenu: 'Pizza', totalTransaction: 1200, action: 'Buy' },
-        { id: 2, customerName: 'Jane Smith', level: 'Silver', favoriteMenu: 'Burger', totalTransaction: 800, action: 'Sell' },
-        { id: 3, customerName: 'Emily Johnson', level: 'Bronze', favoriteMenu: 'Sushi', totalTransaction: 450, action: 'Buy' },
-        { id: 4, customerName: 'Michael Brown', level: 'Gold', favoriteMenu: 'Pasta', totalTransaction: 1350, action: 'Buy' },
-        { id: 5, customerName: 'Sarah Davis', level: 'Platinum', favoriteMenu: 'Steak', totalTransaction: 2000, action: 'Sell' },
-        { id: 6, customerName: 'David Wilson', level: 'Silver', favoriteMenu: 'Tacos', totalTransaction: 950, action: 'Buy' },
-        { id: 7, customerName: 'Laura Martinez', level: 'Bronze', favoriteMenu: 'Salad', totalTransaction: 320, action: 'Sell' },
-        { id: 8, customerName: 'James Anderson', level: 'Gold', favoriteMenu: 'Burger', totalTransaction: 1100, action: 'Buy' },
-        { id: 9, customerName: 'Olivia Thomas', level: 'Platinum', favoriteMenu: 'Lobster', totalTransaction: 2500, action: 'Sell' },
-        { id: 10, customerName: 'Daniel Lee', level: 'Silver', favoriteMenu: 'Pizza', totalTransaction: 850, action: 'Buy' },
-        { id: 11, customerName: 'Sophia White', level: 'Gold', favoriteMenu: 'Pasta', totalTransaction: 1200, action: 'Sell' },
-        { id: 12, customerName: 'Matthew Harris', level: 'Bronze', favoriteMenu: 'Wings', totalTransaction: 400, action: 'Buy' },
-        { id: 13, customerName: 'Isabella Clark', level: 'Silver', favoriteMenu: 'Sushi', totalTransaction: 770, action: 'Sell' },
-        { id: 14, customerName: 'Ethan Lewis', level: 'Gold', favoriteMenu: 'Steak', totalTransaction: 1450, action: 'Buy' },
-        { id: 15, customerName: 'Mia Walker', level: 'Platinum', favoriteMenu: 'Shrimp', totalTransaction: 2200, action: 'Sell' },
-    ];
+    // const data = [
+    //     { id: 1, customerName: 'John Doe', level: 'Gold', favoriteMenu: 'Pizza', totalTransaction: 1200, action: 'Buy' },
+    //     { id: 2, customerName: 'Jane Smith', level: 'Silver', favoriteMenu: 'Burger', totalTransaction: 800, action: 'Sell' },
+    //     { id: 3, customerName: 'Emily Johnson', level: 'Bronze', favoriteMenu: 'Sushi', totalTransaction: 450, action: 'Buy' },
+    //     { id: 4, customerName: 'Michael Brown', level: 'Gold', favoriteMenu: 'Pasta', totalTransaction: 1350, action: 'Buy' },
+    //     { id: 5, customerName: 'Sarah Davis', level: 'Platinum', favoriteMenu: 'Steak', totalTransaction: 2000, action: 'Sell' },
+    //     { id: 6, customerName: 'David Wilson', level: 'Silver', favoriteMenu: 'Tacos', totalTransaction: 950, action: 'Buy' },
+    //     { id: 7, customerName: 'Laura Martinez', level: 'Bronze', favoriteMenu: 'Salad', totalTransaction: 320, action: 'Sell' },
+    //     { id: 8, customerName: 'James Anderson', level: 'Gold', favoriteMenu: 'Burger', totalTransaction: 1100, action: 'Buy' },
+    //     { id: 9, customerName: 'Olivia Thomas', level: 'Platinum', favoriteMenu: 'Lobster', totalTransaction: 2500, action: 'Sell' },
+    //     { id: 10, customerName: 'Daniel Lee', level: 'Silver', favoriteMenu: 'Pizza', totalTransaction: 850, action: 'Buy' },
+    //     { id: 11, customerName: 'Sophia White', level: 'Gold', favoriteMenu: 'Pasta', totalTransaction: 1200, action: 'Sell' },
+    //     { id: 12, customerName: 'Matthew Harris', level: 'Bronze', favoriteMenu: 'Wings', totalTransaction: 400, action: 'Buy' },
+    //     { id: 13, customerName: 'Isabella Clark', level: 'Silver', favoriteMenu: 'Sushi', totalTransaction: 770, action: 'Sell' },
+    //     { id: 14, customerName: 'Ethan Lewis', level: 'Gold', favoriteMenu: 'Steak', totalTransaction: 1450, action: 'Buy' },
+    //     { id: 15, customerName: 'Mia Walker', level: 'Platinum', favoriteMenu: 'Shrimp', totalTransaction: 2200, action: 'Sell' },
+    // ];
     
 
     
